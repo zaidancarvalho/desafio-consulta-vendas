@@ -19,8 +19,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 	        + "SUM(CASE WHEN tb_sales.date >= :minDate AND tb_sales.date <= :maxDate THEN tb_sales.amount ELSE 0 END) AS total "
 	        + "FROM tb_sales "
 	        + "INNER JOIN tb_seller ON tb_sales.seller_id = tb_seller.id "
-	        + "WHERE tb_sales.date >= CASE WHEN :minDate IS NULL THEN DATEADD('MONTH', -12, CURRENT_TIMESTAMP) ELSE :minDate END "
-	        + "AND tb_sales.date <= CASE WHEN :maxDate IS NULL THEN CURRENT_TIMESTAMP ELSE :maxDate END "
+	        + "WHERE tb_sales.date >= :minDate AND tb_sales.date <= :maxDate "
 	        + "GROUP BY tb_seller.name "
 	        + "ORDER BY tb_seller.name; ")
 	List<SaleSummaryProjection> summary(LocalDate minDate, LocalDate maxDate);
